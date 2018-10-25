@@ -15,7 +15,6 @@ public class FirstUniqueChar {
 		for(int i=0; i<sCha.length;i++) {
 			count[sCha[i] - 'a']++;
 		}
-		System.out.println(Arrays.toString(count));
 		for(int i=0; i<sCha.length;i++) {
 			if(count[sCha[i] - 'a'] == 1) {
 				return i;
