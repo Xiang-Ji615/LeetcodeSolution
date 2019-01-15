@@ -1,5 +1,8 @@
 package main.java.challenge.solution;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MinDeliveryDistance {
 
 	static Point START = new Point(0, 0);
@@ -7,26 +10,29 @@ public class MinDeliveryDistance {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Point[] points = { new Point(2, 2), new Point(2, 8), new Point(4,  4), new Point(7, 2)};
-		System.out.println(calcu(START, points, 0, 0));
+		Point[] points = { new Point(1, 4), new Point(2, 2), new Point(3,  1), new Point(5, 3)};
+		System.out.println(calcu(START, points, 0, 0, new ArrayList<>()));
 	}
 	
-	public static int calcu(Point start, Point[] points, int sum, int cnt) {
-		if(cnt == points.length)
-			minPath = Math.min(sum + start.getLength(START), minPath);
-		else {
-			for(int i=0;i<points.length;i++) {
-				if(points[i].visited == false) {
-					sum += points[i].getLength(start);
-					if(sum < minPath) {
-						points[i].visited = true;
-						calcu(points[i], points, sum, cnt+1);
-					}
-					sum -= points[i].getLength(start);
-					points[i].visited = false;
+	public static int calcu(Point p, Point[] points, int sum, int cnt, List<Point> path) {
+		if (cnt == points.length) {
+			minPath = Math.min(minPath, sum + p.getLength(START));
+			System.out.println(path);
+		}
+		for(int i=0;i<points.length;i++) {
+			if(points[i].visited == false) {
+				sum += points[i].getLength(p);
+				if(sum < minPath) {
+					points[i].visited = true;
+					path.add(points[i]);
+					calcu(points[i], points, sum, cnt+1, path);
+					path.remove(path.size() - 1);
 				}
+				sum -= points[i].getLength(p);
+				points[i].visited = false;
 			}
 		}
+//		System.out.println(path);
 		return minPath;
 	}
 
@@ -45,4 +51,12 @@ class Point{
 	public int getLength(Point B) {
 		return Math.abs(x - B.x) + Math.abs(y - B.y);
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Point: "+ x +" : "+ y;
+	}
+	
+	
 }
